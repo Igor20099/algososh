@@ -1,0 +1,16 @@
+.wrapper {
+    display: flex;
+    max-width: 522px;
+    margin: 0 auto;
+    margin-bottom: 120px;
+}
+
+.button {
+    margin-left: 12px;
+}
+
+.circles {
+    display: flex;
+    max-width: 464px;
+    margin: 0 auto;
+}
