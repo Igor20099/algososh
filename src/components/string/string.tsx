@@ -10,16 +10,21 @@ export const StringComponent: React.FC = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [letters, setLetters] = useState<string[]>([]);
   const [word, setWord] = useState<string>("");
+  const [elementState,setElementState] = useState<ElementStates>(ElementStates.Default)
+
+  const wordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+     setWord(e.target.value)
+  }
   const reverseword = () => {
     setIsLoad(true);
-    setLetters(["1", "2"]);
+    setLetters(word.split(''));
     setIsLoad(false);
   };
 
   return (
     <SolutionLayout title="Строка">
       <div className={styles.wrapper}>
-        <Input isLimitText={true} maxLength={11} />
+        <Input isLimitText={true} maxLength={11} onChange={wordChange}/>
         <Button
           text="Развернуть"
           extraClass={styles.button}
@@ -29,7 +34,7 @@ export const StringComponent: React.FC = () => {
       </div>
       <div className={styles.circles}>
         {letters.map((el) => {
-          return <Circle letter={el} state={ElementStates.Changing}/>;
+          return <Circle letter={el} state={elementState} extraClass={styles.circe}/>;
         })}
       </div>
     </SolutionLayout>

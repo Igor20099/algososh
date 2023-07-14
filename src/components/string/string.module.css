@@ -11,6 +11,10 @@
 
 .circles {
     display: flex;
-    max-width: 464px;
-    margin: 0 auto;
+    justify-content: center;
+ 
+}
+
+.circe {
+    margin-right: 16px;
 }
