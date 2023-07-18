@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import styles from "./sorting-page.module.css";
 import { Column } from "../ui/column/column";
-import { delay, generateRandomArray } from "../../utils/utils";
+import { delay, generateRandomArray, swap } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { NumberData } from "../../types/number-data";
 import { ElementStates } from "../../types/element-states";
@@ -19,7 +19,9 @@ export const SortingPage: React.FC = () => {
 
   useEffect(() => {
     setArr(generateRandomArray());
-    return () => { setArr([]) };
+    return () => {
+      setArr([]);
+    };
   }, []);
 
   const generateArray = () => {
@@ -43,7 +45,7 @@ export const SortingPage: React.FC = () => {
             arr[j].state = ElementStates.Default;
             setArr([...arr]);
           }
-          [arr[i].value, arr[minInd].value] = [arr[minInd].value, arr[i].value];
+          swap(arr, i, minInd);
           arr[i].state = ElementStates.Modified;
         }
         arr[arr.length - 1].state = ElementStates.Modified;
@@ -62,7 +64,8 @@ export const SortingPage: React.FC = () => {
             arr[j].state = ElementStates.Default;
             setArr([...arr]);
           }
-          [arr[i].value, arr[maxInd].value] = [arr[maxInd].value, arr[i].value];
+
+          swap(arr, i, maxInd);
           arr[i].state = ElementStates.Modified;
         }
         arr[arr.length - 1].state = ElementStates.Modified;
@@ -84,10 +87,7 @@ export const SortingPage: React.FC = () => {
             setArr([...arr]);
             await delay(DELAY_IN_MS);
             if (arr[j].value > arr[j + 1].value) {
-              [arr[j].value, arr[j + 1].value] = [
-                arr[j + 1].value,
-                arr[j].value,
-              ];
+              swap(arr, j, j + 1);
             }
             arr[j].state = ElementStates.Default;
           }
@@ -102,10 +102,7 @@ export const SortingPage: React.FC = () => {
             setArr([...arr]);
             await delay(DELAY_IN_MS);
             if (arr[j].value < arr[j + 1].value) {
-              [arr[j].value, arr[j + 1].value] = [
-                arr[j + 1].value,
-                arr[j].value,
-              ];
+              swap(arr, j, j + 1);
             }
             arr[j].state = ElementStates.Default;
           }
