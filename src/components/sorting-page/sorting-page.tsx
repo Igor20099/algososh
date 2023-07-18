@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
@@ -16,6 +16,11 @@ export const SortingPage: React.FC = () => {
   const [sortName, setSortName] = useState<string>("выбор");
   const [direction, setDirection] = useState<Direction>();
   const [disabled, setDisabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    setArr(generateRandomArray());
+    return () => { setArr([]) };
+  }, []);
 
   const generateArray = () => {
     setArr(generateRandomArray());
