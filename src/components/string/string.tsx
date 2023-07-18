@@ -5,20 +5,20 @@ import { Button } from "../ui/button/button";
 import styles from "./string.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import { stringData } from "../../types/string-data";
+import { StringData } from "../../types/string-data";
 import { delay, swap } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
-  const [data, setData] = useState<stringData[]>([]);
+  const [data, setData] = useState<StringData[]>([]);
   const [word, setWord] = useState<string>("");
 
   const wordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
   };
   
-  const reverseWord = async (arr: stringData[]) => {
+  const reverseWord = async (arr: StringData[]) => {
     setIsLoad(true);
     const mid = Math.ceil(arr.length / 2);
 

@@ -1,6 +1,6 @@
 import { ElementStates } from "./element-states";
 
-export type stringData = {
+export type StringData = {
     value:string;
     state:ElementStates;
 }
