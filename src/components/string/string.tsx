@@ -61,7 +61,7 @@ export const StringComponent: React.FC = () => {
         />
       </div>
       <div className={styles.circles}>
-        {data.map((el) => {
+        {data && data.map((el) => {
           return (
             <Circle
               letter={el.value}
