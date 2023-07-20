@@ -32,4 +32,6 @@ export const getFibArray = (n: number) : number[] => {
     
     return arr;
   }
+
+  
   
