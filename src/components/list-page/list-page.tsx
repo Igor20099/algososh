@@ -15,6 +15,10 @@ export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputIndex, setInputIndex] = useState<number>();
   const [linkedList] = useState(new LinkedList<LinkedListData>());
+  const [head, setHead] = useState<string>("");
+  const [tail, setTail] = useState<string>("");
+  const [deleteHead, setDeleteHead] = useState<string>("");
+  const [deleteTail, setDeleteTail] = useState<string>("");
   const startArr = [
     { value: "0", state: ElementStates.Default, head: null, tail: null },
     { value: "34", state: ElementStates.Default, head: null, tail: null },
@@ -40,42 +44,152 @@ export const ListPage: React.FC = () => {
 
   const handleAddHead = async () => {
     if (inputValue) {
-      linkedList.prepend({ value: inputValue, state: ElementStates.Default });
+      setHead(inputValue);
+      setInputValue("");
+      await delay(SHORT_DELAY_IN_MS);
+      linkedList.prepend({ value: inputValue, state: ElementStates.Modified });
+      await delay(SHORT_DELAY_IN_MS);
       setLinkedListArr([...linkedList.toArray()]);
+      setHead("");
+      await delay(SHORT_DELAY_IN_MS);
+      const tempArr = linkedList.toArray();
+      tempArr[0].state = ElementStates.Default;
+      setLinkedListArr(tempArr);
     }
   };
 
-  const handleDeleteHead = () => {
+  const handleDeleteHead = async () => {
+    const tempArr = linkedList.toArray();
+    setDeleteHead(tempArr[0].value);
+    tempArr[0].value = "";
+    setLinkedListArr([...linkedList.toArray()]);
+    await delay(SHORT_DELAY_IN_MS);
     linkedList.deleteHead();
+    setDeleteHead("");
     setLinkedListArr([...linkedList.toArray()]);
   };
 
-  const handleAddTail = () => {
+  const handleAddTail = async () => {
     if (inputValue) {
-      linkedList.append({ value: inputValue, state: ElementStates.Default });
+      setTail(inputValue);
+      setInputValue("");
+      await delay(SHORT_DELAY_IN_MS);
+      linkedList.append({ value: inputValue, state: ElementStates.Modified });
+      await delay(SHORT_DELAY_IN_MS);
       setLinkedListArr([...linkedList.toArray()]);
+      setTail("");
+      await delay(SHORT_DELAY_IN_MS);
+      const tempArr = linkedList.toArray();
+      tempArr[tempArr.length - 1].state = ElementStates.Default;
+
+      setLinkedListArr(tempArr);
     }
   };
 
-  const handleDeleteTail = () => {
+  const handleDeleteTail = async () => {
+    const tempArr = linkedList.toArray();
+    setDeleteTail(tempArr[tempArr.length - 1].value);
+    tempArr[tempArr.length - 1].value = "";
+    setLinkedListArr([...linkedList.toArray()]);
+    await delay(SHORT_DELAY_IN_MS);
     linkedList.deleteTail();
+    setDeleteTail("");
     setLinkedListArr([...linkedList.toArray()]);
   };
 
-  const handleInsertAt = () => {
-    if (inputValue && inputIndex) {
+  const handleInsertAt = async () => {
+    if (inputValue && inputIndex && inputIndex <= linkedListArr.length) {
+      let tempArr = linkedList.toArray();
+      let count = 0;
+      setInputValue("");
+      setInputIndex(-1);
+      while (count < inputIndex) {
+        tempArr[count].head = inputValue;
+        tempArr[count].state = ElementStates.Changing;
+        setLinkedListArr([...linkedList.toArray()]);
+        await delay(SHORT_DELAY_IN_MS);
+        tempArr[count].head = "";
+        count++;
+        await delay(SHORT_DELAY_IN_MS);
+
+        setLinkedListArr([...linkedList.toArray()]);
+      }
       linkedList.insertAt(
         { value: inputValue, state: ElementStates.Default },
         inputIndex
       );
+
+      for (let i = 0; i < tempArr.length; i++) {
+        tempArr[i].state = ElementStates.Default;
+      }
       setLinkedListArr([...linkedList.toArray()]);
     }
   };
 
-  const handleDeleteAt = () => {
-    if (inputIndex) {
-      linkedList.deleteAt(inputIndex);
+  const handleDeleteAt = async () => {
+    if (inputIndex && inputIndex <= linkedListArr.length - 1) {
+      let tempArr = linkedList.toArray();
+      let count = 0;
+      setInputIndex(-1);
+      while (count < inputIndex + 1) {
+        tempArr[count].state = ElementStates.Changing;
+        setLinkedListArr([...linkedList.toArray()]);
+        await delay(SHORT_DELAY_IN_MS);
+        count++;
+        await delay(SHORT_DELAY_IN_MS);
+
+        setLinkedListArr([...linkedList.toArray()]);
+      }
+      tempArr[inputIndex].tail = tempArr[inputIndex].value;
+      tempArr[inputIndex].value = "";
+      await delay(SHORT_DELAY_IN_MS);
+      tempArr[inputIndex].state = ElementStates.Default;
       setLinkedListArr([...linkedList.toArray()]);
+      await delay(SHORT_DELAY_IN_MS);
+      linkedList.deleteAt(inputIndex);
+      for (let i = 0; i < tempArr.length; i++) {
+        tempArr[i].state = ElementStates.Default;
+      }
+      setLinkedListArr([...linkedList.toArray()]);
+    }
+  };
+
+  const showHead = (i: number, length: number, inputIndex?: number) => {
+    if (!head && i === 0) {
+      return "head";
+    } else if (i === 0 && head) {
+      return (
+        <Circle letter={head} isSmall={true} state={ElementStates.Changing} />
+      );
+    }
+
+    if (tail && i === length) {
+      return (
+        <Circle letter={tail} isSmall={true} state={ElementStates.Changing} />
+      );
+    }
+  };
+
+  const showTail = (i: number, length: number) => {
+    if (!deleteTail && i === length) {
+      return "tail";
+    } else if (i === length) {
+      return (
+        <Circle
+          letter={deleteTail}
+          isSmall={true}
+          state={ElementStates.Changing}
+        />
+      );
+    }
+    if (deleteHead && i === 0) {
+      return (
+        <Circle
+          letter={deleteHead}
+          isSmall={true}
+          state={ElementStates.Changing}
+        />
+      );
     }
   };
 
@@ -113,7 +227,7 @@ export const ListPage: React.FC = () => {
         <Input
           placeholder="Введите индекс"
           extraClass={styles.input}
-          value={inputIndex}
+          value={inputIndex !== -1 ? inputIndex : ""}
           onChange={changeInputIndex}
         />
         <Button
@@ -136,8 +250,28 @@ export const ListPage: React.FC = () => {
                   index={i}
                   letter={el.value}
                   state={el.state}
-                  head={i === 0 ? "head" : el.head}
-                  tail={i === linkedListArr.length - 1 ? "tail" : ""}
+                  head={
+                    !el.head ? (
+                      showHead(i, linkedListArr.length - 1, inputIndex)
+                    ) : (
+                      <Circle
+                        letter={el.head}
+                        isSmall={true}
+                        state={ElementStates.Changing}
+                      />
+                    )
+                  }
+                  tail={
+                    !el.tail ? (
+                      showTail(i, linkedListArr.length - 1)
+                    ) : (
+                      <Circle
+                        letter={el.tail}
+                        isSmall={true}
+                        state={ElementStates.Changing}
+                      />
+                    )
+                  }
                   extraClass={styles.circle}
                 />
                 {i !== linkedListArr.length - 1 ? <ArrowIcon /> : null}
