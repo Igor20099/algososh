@@ -4,7 +4,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import styles from "./fibonacci-page.module.css";
-import { delay,getFibArray } from "../../utils/utils";
+import { delay,getFibonacciNumbers } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 
@@ -32,7 +32,7 @@ export const FibonacciPage: React.FC = () => {
 
   const handleButton = async () => {
     setIsLoad(true);
-    const arr = getFibArray(num)
+    const arr = getFibonacciNumbers(num)
     for (let i = 0; i < arr.length; i++) {
       await delay(SHORT_DELAY_IN_MS);
       setCircleNumArray(arr.slice(0, i + 1));
