@@ -1,4 +1,4 @@
-import { delay } from "./utils";
+import { delay } from "../../utils/utils";
 
 interface IStack<T> {
   push: (item: T) => void;

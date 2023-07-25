@@ -7,9 +7,10 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
 import { delay, getRandomNumber } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { LinkedList } from "../../utils/linked-list";
+import { LinkedList } from "./linked-list";
 import { LinkedListData } from "../../types/linked-list-data";
 import { ElementStates } from "../../types/element-states";
+import { MAX_LENGTH } from "../../constants/lengths";
 export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputIndex, setInputIndex] = useState<number>();
@@ -28,7 +29,6 @@ export const ListPage: React.FC = () => {
     value: getRandomNumber().toString(),
     state: ElementStates.Default,
   }));
-  console.log(startArr);
   const [linkedListArr, setLinkedListArr] =
     useState<LinkedListData[]>(startArr);
 
@@ -225,7 +225,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <div className={styles.container}>
         <Input
-          maxLength={4}
+          maxLength={MAX_LENGTH}
           placeholder="Введите значение"
           extraClass={styles.input}
           isLimitText={true}

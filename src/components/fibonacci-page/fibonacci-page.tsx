@@ -4,9 +4,11 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import styles from "./fibonacci-page.module.css";
-import { delay, getFibonacciNumbers } from "../../utils/utils";
+import { delay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
+import { getFibonacciNumbers } from "./utils";
+import { MIN_LENGTH,MAX } from "../../constants/lengths";
 
 export const FibonacciPage: React.FC = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -17,8 +19,8 @@ export const FibonacciPage: React.FC = () => {
   const numberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (
       e.target.value === "" ||
-      Number(e.target.value) > 19 ||
-      Number(e.target.value) <= 0
+      Number(e.target.value) > MAX ||
+      Number(e.target.value) <= MIN_LENGTH
     ) {
       setButtonDisabled(true);
     } else {
@@ -47,7 +49,7 @@ export const FibonacciPage: React.FC = () => {
       <div className={styles.wrapper}>
         <Input
           isLimitText={true}
-          max={19}
+          max={MAX}
           type="number"
           onChange={numberChange}
         />
