@@ -15,7 +15,7 @@ import { getRandomNumber } from "./list-page.utils";
 
 export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [inputIndex, setInputIndex] = useState<number>();
+  const [inputIndex, setInputIndex] = useState<number>(-1);
   const [linkedList] = useState(new LinkedList<LinkedListData>());
   const [head, setHead] = useState<string>("");
   const [tail, setTail] = useState<string>("");
