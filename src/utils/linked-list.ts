@@ -65,7 +65,7 @@ export class LinkedList<T> {
     return output;
   }
 
-  insertAt(data: T, index: number): void {
+  addByIndex(data: T, index: number): void {
     if (index < 0) {
       throw new Error("Index out of range");
     }
@@ -142,7 +142,7 @@ export class LinkedList<T> {
     return curr;
   }
 
-  deleteAt(index: number) {
+  deleteByIndex(index: number) {
     if (index === 0) return this.deleteHead();
     if (index === this.length - 1) return this.deleteTail();
     let prev = this.get(index - 1);

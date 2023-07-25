@@ -19,19 +19,26 @@ export const ListPage: React.FC = () => {
   const [tail, setTail] = useState<string>("");
   const [deleteHead, setDeleteHead] = useState<string>("");
   const [deleteTail, setDeleteTail] = useState<string>("");
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const [isloadAddHead, setIsLoadAddHead] = useState<boolean>(false);
+  const [isloadAddTail, setIsLoadAddTail] = useState<boolean>(false);
+  const [isloadDeteteHead, setIsLoadDeleteHead] = useState<boolean>(false);
+  const [isloadDeleteTail, setIsLoadDeleteTail] = useState<boolean>(false);
+  const [isloadAddIndex, setIsLoadAddIndex] = useState<boolean>(false);
+  const [isLoadDeleteIndex, setIsLoadDeleteIndex] = useState<boolean>(false);
   const startArr = [
     { value: "0", state: ElementStates.Default, head: null, tail: null },
     { value: "34", state: ElementStates.Default, head: null, tail: null },
     { value: "8", state: ElementStates.Default, head: null, tail: null },
     { value: "1", state: ElementStates.Default, head: null, tail: null },
   ];
-  const [linkedListArr, setLinkedListArr] = useState<LinkedListData[]>([]);
+  const [linkedListArr, setLinkedListArr] =
+    useState<LinkedListData[]>(startArr);
 
   useEffect(() => {
     for (let i = 0; i < startArr.length; i++) {
       linkedList.append(startArr[i]);
     }
-    setLinkedListArr([...linkedList.toArray()]);
   }, []);
 
   const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +51,8 @@ export const ListPage: React.FC = () => {
 
   const handleAddHead = async () => {
     if (inputValue) {
+      setIsLoadAddHead(true);
+      setDisabled(true);
       setHead(inputValue);
       setInputValue("");
       await delay(SHORT_DELAY_IN_MS);
@@ -55,10 +64,12 @@ export const ListPage: React.FC = () => {
       const tempArr = linkedList.toArray();
       tempArr[0].state = ElementStates.Default;
       setLinkedListArr(tempArr);
+      setIsLoadAddHead(false);
     }
   };
 
   const handleDeleteHead = async () => {
+    setIsLoadDeleteHead(true);
     const tempArr = linkedList.toArray();
     setDeleteHead(tempArr[0].value);
     tempArr[0].value = "";
@@ -67,10 +78,12 @@ export const ListPage: React.FC = () => {
     linkedList.deleteHead();
     setDeleteHead("");
     setLinkedListArr([...linkedList.toArray()]);
+    setIsLoadDeleteHead(false);
   };
 
   const handleAddTail = async () => {
     if (inputValue) {
+      setIsLoadAddTail(true);
       setTail(inputValue);
       setInputValue("");
       await delay(SHORT_DELAY_IN_MS);
@@ -83,10 +96,12 @@ export const ListPage: React.FC = () => {
       tempArr[tempArr.length - 1].state = ElementStates.Default;
 
       setLinkedListArr(tempArr);
+      setIsLoadAddTail(false);
     }
   };
 
   const handleDeleteTail = async () => {
+    setIsLoadDeleteTail(true);
     const tempArr = linkedList.toArray();
     setDeleteTail(tempArr[tempArr.length - 1].value);
     tempArr[tempArr.length - 1].value = "";
@@ -95,10 +110,12 @@ export const ListPage: React.FC = () => {
     linkedList.deleteTail();
     setDeleteTail("");
     setLinkedListArr([...linkedList.toArray()]);
+    setIsLoadDeleteTail(false);
   };
 
   const handleInsertAt = async () => {
     if (inputValue && inputIndex && inputIndex <= linkedListArr.length) {
+      setIsLoadAddIndex(true);
       let tempArr = linkedList.toArray();
       let count = 0;
       setInputValue("");
@@ -114,7 +131,7 @@ export const ListPage: React.FC = () => {
 
         setLinkedListArr([...linkedList.toArray()]);
       }
-      linkedList.insertAt(
+      linkedList.addByIndex(
         { value: inputValue, state: ElementStates.Default },
         inputIndex
       );
@@ -123,11 +140,13 @@ export const ListPage: React.FC = () => {
         tempArr[i].state = ElementStates.Default;
       }
       setLinkedListArr([...linkedList.toArray()]);
+      setIsLoadAddIndex(false);
     }
   };
 
   const handleDeleteAt = async () => {
     if (inputIndex && inputIndex <= linkedListArr.length - 1) {
+      setIsLoadDeleteIndex(true);
       let tempArr = linkedList.toArray();
       let count = 0;
       setInputIndex(-1);
@@ -146,11 +165,12 @@ export const ListPage: React.FC = () => {
       tempArr[inputIndex].state = ElementStates.Default;
       setLinkedListArr([...linkedList.toArray()]);
       await delay(SHORT_DELAY_IN_MS);
-      linkedList.deleteAt(inputIndex);
+      linkedList.deleteByIndex(inputIndex);
       for (let i = 0; i < tempArr.length; i++) {
         tempArr[i].state = ElementStates.Default;
       }
       setLinkedListArr([...linkedList.toArray()]);
+      setIsLoadDeleteIndex(false);
     }
   };
 
@@ -208,21 +228,45 @@ export const ListPage: React.FC = () => {
           text="Добавить в head"
           extraClass={styles.button}
           onClick={handleAddHead}
+          disabled={!inputValue ? true : false}
+          isLoader={isloadAddHead}
         />
         <Button
           text="Добавить в tail"
           extraClass={styles.button}
           onClick={handleAddTail}
+          disabled={!inputValue || isloadAddHead ? true : false}
+          isLoader={isloadAddTail}
         />
         <Button
           text="Удалить из head"
           extraClass={styles.button}
           onClick={handleDeleteHead}
+          isLoader={isloadDeteteHead}
+          disabled={
+            isloadAddHead ||
+            isloadAddTail ||
+            isloadDeleteTail ||
+            isloadAddIndex ||
+            isLoadDeleteIndex
+              ? true
+              : false
+          }
         />
         <Button
           text="Удалить из tail"
           extraClass={styles.button_tail}
           onClick={handleDeleteTail}
+          isLoader={isloadDeleteTail}
+          disabled={
+            isloadAddHead ||
+            isloadAddTail ||
+            isloadDeteteHead ||
+            isloadAddIndex ||
+            isLoadDeleteIndex
+              ? true
+              : false
+          }
         />
         <Input
           placeholder="Введите индекс"
@@ -234,11 +278,23 @@ export const ListPage: React.FC = () => {
           text="Добавить по индексу"
           extraClass={styles.button_index}
           onClick={handleInsertAt}
+          disabled={
+            (!inputIndex && !inputValue) ||
+            isLoadDeleteIndex ||
+            inputIndex === -1
+              ? true
+              : false
+          }
+          isLoader={isloadAddIndex}
         />
         <Button
           text="Удалить по индексу"
           extraClass={styles.button_index}
           onClick={handleDeleteAt}
+          disabled={
+            !inputIndex || isloadAddIndex || inputIndex === -1 ? true : false
+          }
+          isLoader={isLoadDeleteIndex}
         />
       </div>
       <div className={styles.circles}>
