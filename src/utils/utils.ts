@@ -22,7 +22,7 @@ export const getFibonacciNumbers = (n: number) : number[] => {
     return arr;
   };
 
-  export function generateRandomArray(minValue: number = 0, maxValue: number = 100): NumberData[] {
+  export function generateRandomArray(minValue: number = 0, maxValue: number = 99): NumberData[] {
     const arr: NumberData[] = [];
     const randomNum = Math.floor(Math.random() * 15) + 3;
     for (let i = 0; i < randomNum; i++) {
@@ -32,6 +32,10 @@ export const getFibonacciNumbers = (n: number) : number[] => {
     
     return arr;
   }
+
+  export const getRandomNumber = (minValue: number = 0, maxValue: number = 99) => {
+    return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+};
 
   
   

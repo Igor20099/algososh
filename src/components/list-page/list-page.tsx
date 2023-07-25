@@ -5,12 +5,11 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
-import { delay } from "../../utils/utils";
+import { delay, getRandomNumber } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList } from "../../utils/linked-list";
 import { LinkedListData } from "../../types/linked-list-data";
 import { ElementStates } from "../../types/element-states";
-
 export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputIndex, setInputIndex] = useState<number>();
@@ -19,19 +18,17 @@ export const ListPage: React.FC = () => {
   const [tail, setTail] = useState<string>("");
   const [deleteHead, setDeleteHead] = useState<string>("");
   const [deleteTail, setDeleteTail] = useState<string>("");
-  const [disabled, setDisabled] = useState<boolean>(false);
   const [isloadAddHead, setIsLoadAddHead] = useState<boolean>(false);
   const [isloadAddTail, setIsLoadAddTail] = useState<boolean>(false);
   const [isloadDeteteHead, setIsLoadDeleteHead] = useState<boolean>(false);
   const [isloadDeleteTail, setIsLoadDeleteTail] = useState<boolean>(false);
   const [isloadAddIndex, setIsLoadAddIndex] = useState<boolean>(false);
   const [isLoadDeleteIndex, setIsLoadDeleteIndex] = useState<boolean>(false);
-  const startArr = [
-    { value: "0", state: ElementStates.Default, head: null, tail: null },
-    { value: "34", state: ElementStates.Default, head: null, tail: null },
-    { value: "8", state: ElementStates.Default, head: null, tail: null },
-    { value: "1", state: ElementStates.Default, head: null, tail: null },
-  ];
+  const startArr = Array.from({ length: 4 }, () => ({
+    value: getRandomNumber().toString(),
+    state: ElementStates.Default,
+  }));
+  console.log(startArr);
   const [linkedListArr, setLinkedListArr] =
     useState<LinkedListData[]>(startArr);
 
@@ -52,7 +49,6 @@ export const ListPage: React.FC = () => {
   const handleAddHead = async () => {
     if (inputValue) {
       setIsLoadAddHead(true);
-      setDisabled(true);
       setHead(inputValue);
       setInputValue("");
       await delay(SHORT_DELAY_IN_MS);
@@ -179,13 +175,23 @@ export const ListPage: React.FC = () => {
       return "head";
     } else if (i === 0 && head) {
       return (
-        <Circle letter={head} isSmall={true} state={ElementStates.Changing} />
+        <Circle
+          key={i}
+          letter={head}
+          isSmall={true}
+          state={ElementStates.Changing}
+        />
       );
     }
 
     if (tail && i === length) {
       return (
-        <Circle letter={tail} isSmall={true} state={ElementStates.Changing} />
+        <Circle
+          key={i}
+          letter={tail}
+          isSmall={true}
+          state={ElementStates.Changing}
+        />
       );
     }
   };
@@ -196,6 +202,7 @@ export const ListPage: React.FC = () => {
     } else if (i === length) {
       return (
         <Circle
+          key={i}
           letter={deleteTail}
           isSmall={true}
           state={ElementStates.Changing}
@@ -205,6 +212,7 @@ export const ListPage: React.FC = () => {
     if (deleteHead && i === 0) {
       return (
         <Circle
+          key={i}
           letter={deleteHead}
           isSmall={true}
           state={ElementStates.Changing}
@@ -303,6 +311,7 @@ export const ListPage: React.FC = () => {
             return (
               <>
                 <Circle
+                  key={i}
                   index={i}
                   letter={el.value}
                   state={el.state}
@@ -311,6 +320,7 @@ export const ListPage: React.FC = () => {
                       showHead(i, linkedListArr.length - 1, inputIndex)
                     ) : (
                       <Circle
+                        key={i}
                         letter={el.head}
                         isSmall={true}
                         state={ElementStates.Changing}
@@ -322,6 +332,7 @@ export const ListPage: React.FC = () => {
                       showTail(i, linkedListArr.length - 1)
                     ) : (
                       <Circle
+                        key={i}
                         letter={el.tail}
                         isSmall={true}
                         state={ElementStates.Changing}
