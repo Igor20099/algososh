@@ -117,6 +117,7 @@ export const QueuePage: React.FC = () => {
           queueArr.map((el, i) => {
             return (
               <Circle
+                key={i}
                 index={i}
                 letter={el.value}
                 state={el.state}

@@ -150,14 +150,14 @@ export const SortingPage: React.FC = () => {
           label="Выбор"
           value="выбор"
           checked={sortName === "выбор" ? true : false}
-          onClick={selectSelectionSort}
+          onChange={selectSelectionSort}
         />
         <RadioInput
           label="Пузырек"
           extraClass={styles.radio}
           value="пузырек"
           checked={sortName === "пузырек" ? true : false}
-          onClick={selectBubbleSort}
+          onChange={selectBubbleSort}
         />
         <Button
           sorting={Direction.Ascending}
@@ -182,9 +182,10 @@ export const SortingPage: React.FC = () => {
       </div>
       <div className={styles.columns}>
         {arr &&
-          arr.map((el) => {
+          arr.map((el, i) => {
             return (
               <Column
+                key={i}
                 index={el.value}
                 extraClass={styles.column}
                 state={el.state}

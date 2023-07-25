@@ -17,7 +17,7 @@ export const StringComponent: React.FC = () => {
   const wordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
   };
-  
+
   const reverseWord = async (arr: StringData[]) => {
     setIsLoad(true);
     const mid = Math.ceil(arr.length / 2);
@@ -61,15 +61,17 @@ export const StringComponent: React.FC = () => {
         />
       </div>
       <div className={styles.circles}>
-        {data && data.map((el) => {
-          return (
-            <Circle
-              letter={el.value}
-              state={el.state}
-              extraClass={styles.circe}
-            />
-          );
-        })}
+        {data &&
+          data.map((el, i) => {
+            return (
+              <Circle
+                key={i}
+                letter={el.value}
+                state={el.state}
+                extraClass={styles.circe}
+              />
+            );
+          })}
       </div>
     </SolutionLayout>
   );

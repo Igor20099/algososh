@@ -39,9 +39,9 @@ export const StackPage: React.FC = () => {
   };
 
   const handleClear = () => {
-      stack.clear()
-      setStackArr([...stack.getElements()])
-  }
+    stack.clear();
+    setStackArr([...stack.getElements()]);
+  };
 
   return (
     <SolutionLayout title="Стек">
@@ -58,7 +58,7 @@ export const StackPage: React.FC = () => {
           text="Добавить"
           extraClass={styles.add_button}
           onClick={handleAdd}
-          disabled={inputValue === ''}
+          disabled={inputValue === ""}
         />
         <Button
           text="Удалить"
@@ -66,9 +66,10 @@ export const StackPage: React.FC = () => {
           onClick={handleDelete}
           disabled={!stackArr.length}
         />
-        <Button text="Очистить" 
-        onClick={handleClear}
-        disabled={!stackArr.length}
+        <Button
+          text="Очистить"
+          onClick={handleClear}
+          disabled={!stackArr.length}
         />
       </div>
 
@@ -77,6 +78,7 @@ export const StackPage: React.FC = () => {
           stackArr.map((el, i) => {
             return (
               <Circle
+                key={i}
                 index={i}
                 state={el.state}
                 letter={el.value}
