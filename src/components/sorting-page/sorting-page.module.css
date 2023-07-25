@@ -1,0 +1,30 @@
+.sort {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  max-width: 980px;
+  margin-left: 186px;
+  margin-bottom: 48px;
+}
+
+.radio {
+  margin-left: 40px;
+  margin-right: 52px;
+}
+
+.button {
+  margin-left: 12px;
+  margin-right: 80px;
+}
+
+.columns {
+  display: flex;
+  justify-content: center;
+  align-items:flex-end;
+  max-height: 368px;
+}
+
+.column {
+  margin-right: 10px;
+}

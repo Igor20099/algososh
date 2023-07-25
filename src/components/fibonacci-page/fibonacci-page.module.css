@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    max-width: 522px;
+    margin: 0 auto;
+    margin-bottom: 48px;
+}
+
+.button {
+    margin-left: 12px;
+}
+
+.circles {
+    display: flex;
+    justify-content: start;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    max-width: 980px;
+    margin-left: 240px;
+ 
+}
+
+.circe {
+    margin-right: 16px;
+    margin-bottom: 48px;
+}

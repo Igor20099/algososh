@@ -1,0 +1,28 @@
+.queue {
+    display: flex;
+    margin-left: 300px;
+    max-width: 900px;
+    margin-bottom: 48px;
+}
+
+.input {
+    margin-right: 12px;
+    max-width: 377px;
+}
+
+.add_button {
+    margin-right: 12px;
+}
+
+.remove_button {
+    margin-right: 80px; 
+}
+
+.circles {
+    display: flex;
+    justify-content: center;
+}
+
+.circle {
+    margin-right: 16px;
+}
