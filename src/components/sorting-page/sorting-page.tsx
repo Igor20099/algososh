@@ -5,10 +5,12 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import styles from "./sorting-page.module.css";
 import { Column } from "../ui/column/column";
-import { delay, generateRandomArray, swap } from "../../utils/utils";
+import { delay, swap } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { NumberData } from "../../types/number-data";
 import { ElementStates } from "../../types/element-states";
+import { generateRandomArray } from "./sorting-page.utils";
+
 
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<NumberData[]>([]);

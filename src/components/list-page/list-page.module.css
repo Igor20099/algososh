@@ -37,9 +37,15 @@
     margin-right: 16px;
 }
 
+.circle_wrapper {
+    display: flex;
+    align-items: center;
+}
+
 .circle {
     margin-left: 16px;
     margin-right: 16px;
+   
 }
 
 .circle:last-child {

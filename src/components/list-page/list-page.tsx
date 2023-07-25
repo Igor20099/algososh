@@ -5,12 +5,14 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
-import { delay, getRandomNumber } from "../../utils/utils";
+import { delay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList } from "./linked-list";
 import { LinkedListData } from "../../types/linked-list-data";
 import { ElementStates } from "../../types/element-states";
 import { MAX_LENGTH } from "../../constants/lengths";
+import { getRandomNumber } from "./list-page.utils";
+
 export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputIndex, setInputIndex] = useState<number>();
@@ -287,9 +289,9 @@ export const ListPage: React.FC = () => {
           extraClass={styles.button_index}
           onClick={handleInsertAt}
           disabled={
-            (!inputIndex && !inputValue) ||
+            (!inputIndex || !inputValue) ||
             isLoadDeleteIndex ||
-            inputIndex === -1
+             inputIndex! > linkedListArr.length - 1
               ? true
               : false
           }
@@ -300,7 +302,7 @@ export const ListPage: React.FC = () => {
           extraClass={styles.button_index}
           onClick={handleDeleteAt}
           disabled={
-            !inputIndex || isloadAddIndex || inputIndex === -1 ? true : false
+            !inputIndex || isloadAddIndex || inputIndex === -1 || inputIndex! > linkedListArr.length - 1 ? true : false
           }
           isLoader={isLoadDeleteIndex}
         />
@@ -309,7 +311,7 @@ export const ListPage: React.FC = () => {
         {linkedListArr &&
           linkedListArr.map((el, i) => {
             return (
-              <>
+              <div key={i} className={styles.circle_wrapper}>
                 <Circle
                   key={i}
                   index={i}
@@ -342,7 +344,7 @@ export const ListPage: React.FC = () => {
                   extraClass={styles.circle}
                 />
                 {i !== linkedListArr.length - 1 ? <ArrowIcon /> : null}
-              </>
+              </div>
             );
           })}
       </div>

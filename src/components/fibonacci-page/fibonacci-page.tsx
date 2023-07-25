@@ -7,7 +7,7 @@ import styles from "./fibonacci-page.module.css";
 import { delay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { getFibonacciNumbers } from "./utils";
+import { getFibonacciNumbers } from "./fibonacci-page.utils";
 import { MIN_LENGTH,MAX } from "../../constants/lengths";
 
 export const FibonacciPage: React.FC = () => {
