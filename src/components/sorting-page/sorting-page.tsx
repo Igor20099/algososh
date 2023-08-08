@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
@@ -11,6 +11,104 @@ import { NumberData } from "../../types/number-data";
 import { ElementStates } from "../../types/element-states";
 import { generateRandomArray } from "./sorting-page.utils";
 
+export const bubbleSort = async (
+  arr: NumberData[],
+  setArr: Dispatch<SetStateAction<NumberData[]>>,
+  setIsLoad: Dispatch<SetStateAction<boolean>>,
+  setDisabled: Dispatch<SetStateAction<boolean>>,
+  direction: Direction
+) => {
+  setIsLoad(true);
+  if (arr.length > 1) {
+    if (direction === Direction.Ascending) {
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          arr[j].state = ElementStates.Changing;
+          arr[j + 1].state = ElementStates.Changing;
+          setArr([...arr]);
+          await delay(DELAY_IN_MS);
+          if (arr[j].value > arr[j + 1].value) {
+            swap(arr, j, j + 1);
+          }
+          arr[j].state = ElementStates.Default;
+        }
+        arr[arr.length - i - 1].state = ElementStates.Modified;
+        setArr([...arr]);
+      }
+    } else {
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          arr[j].state = ElementStates.Changing;
+          arr[j + 1].state = ElementStates.Changing;
+          setArr([...arr]);
+          await delay(DELAY_IN_MS);
+          if (arr[j].value < arr[j + 1].value) {
+            swap(arr, j, j + 1);
+          }
+          arr[j].state = ElementStates.Default;
+        }
+        arr[arr.length - i - 1].state = ElementStates.Modified;
+        setArr([...arr]);
+      }
+    }
+  }
+  setIsLoad(false);
+  setDisabled(false);
+};
+
+export const selectionSort = async (
+  arr: NumberData[],
+  setArr: Dispatch<SetStateAction<NumberData[]>>,
+  setIsLoad: Dispatch<SetStateAction<boolean>>,
+  setDisabled: Dispatch<SetStateAction<boolean>>,
+  direction: Direction
+) => {
+  setIsLoad(true);
+  if (arr.length > 1) {
+    if (direction === Direction.Ascending) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let minInd = i;
+        for (let j = i + 1; j < arr.length; j++) {
+          arr[i].state = ElementStates.Changing;
+          arr[j].state = ElementStates.Changing;
+          setArr([...arr]);
+          await delay(DELAY_IN_MS);
+          if (arr[j].value < arr[minInd].value) {
+            minInd = j;
+          }
+          arr[j].state = ElementStates.Default;
+          setArr([...arr]);
+        }
+        swap(arr, i, minInd);
+        arr[i].state = ElementStates.Modified;
+      }
+      arr[arr.length - 1].state = ElementStates.Modified;
+      setArr([...arr]);
+    } else {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let maxInd = i;
+        for (let j = i + 1; j < arr.length; j++) {
+          arr[i].state = ElementStates.Changing;
+          arr[j].state = ElementStates.Changing;
+          setArr([...arr]);
+          await delay(DELAY_IN_MS);
+          if (arr[j].value > arr[maxInd].value) {
+            maxInd = j;
+          }
+          arr[j].state = ElementStates.Default;
+          setArr([...arr]);
+        }
+
+        swap(arr, i, maxInd);
+        arr[i].state = ElementStates.Modified;
+      }
+      arr[arr.length - 1].state = ElementStates.Modified;
+      setArr([...arr]);
+    }
+  }
+  setIsLoad(false);
+  setDisabled(false);
+};
 
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<NumberData[]>([]);
@@ -30,93 +128,6 @@ export const SortingPage: React.FC = () => {
     setArr(generateRandomArray());
   };
 
-  const selectionSort = async (arr: NumberData[], direction: Direction) => {
-    setIsLoad(true);
-    if (arr.length > 1) {
-      if (direction === Direction.Ascending) {
-        for (let i = 0; i < arr.length - 1; i++) {
-          let minInd = i;
-          for (let j = i + 1; j < arr.length; j++) {
-            arr[i].state = ElementStates.Changing;
-            arr[j].state = ElementStates.Changing;
-            setArr([...arr]);
-            await delay(DELAY_IN_MS);
-            if (arr[j].value < arr[minInd].value) {
-              minInd = j;
-            }
-            arr[j].state = ElementStates.Default;
-            setArr([...arr]);
-          }
-          swap(arr, i, minInd);
-          arr[i].state = ElementStates.Modified;
-        }
-        arr[arr.length - 1].state = ElementStates.Modified;
-        setArr([...arr]);
-      } else {
-        for (let i = 0; i < arr.length - 1; i++) {
-          let maxInd = i;
-          for (let j = i + 1; j < arr.length; j++) {
-            arr[i].state = ElementStates.Changing;
-            arr[j].state = ElementStates.Changing;
-            setArr([...arr]);
-            await delay(DELAY_IN_MS);
-            if (arr[j].value > arr[maxInd].value) {
-              maxInd = j;
-            }
-            arr[j].state = ElementStates.Default;
-            setArr([...arr]);
-          }
-
-          swap(arr, i, maxInd);
-          arr[i].state = ElementStates.Modified;
-        }
-        arr[arr.length - 1].state = ElementStates.Modified;
-        setArr([...arr]);
-      }
-    }
-    setIsLoad(false);
-    setDisabled(false);
-  };
-
-  const bubbleSort = async (arr: NumberData[], direction: Direction) => {
-    setIsLoad(true);
-    if (arr.length > 1) {
-      if (direction === Direction.Ascending) {
-        for (let i = 0; i < arr.length; i++) {
-          for (let j = 0; j < arr.length - i - 1; j++) {
-            arr[j].state = ElementStates.Changing;
-            arr[j + 1].state = ElementStates.Changing;
-            setArr([...arr]);
-            await delay(DELAY_IN_MS);
-            if (arr[j].value > arr[j + 1].value) {
-              swap(arr, j, j + 1);
-            }
-            arr[j].state = ElementStates.Default;
-          }
-          arr[arr.length - i - 1].state = ElementStates.Modified;
-          setArr([...arr]);
-        }
-      } else {
-        for (let i = 0; i < arr.length; i++) {
-          for (let j = 0; j < arr.length - i - 1; j++) {
-            arr[j].state = ElementStates.Changing;
-            arr[j + 1].state = ElementStates.Changing;
-            setArr([...arr]);
-            await delay(DELAY_IN_MS);
-            if (arr[j].value < arr[j + 1].value) {
-              swap(arr, j, j + 1);
-            }
-            arr[j].state = ElementStates.Default;
-          }
-          arr[arr.length - i - 1].state = ElementStates.Modified;
-          setArr([...arr]);
-        }
-      }
-    }
-    setIsLoad(false);
-    setDisabled(false);
-  };
-
   const selectBubbleSort = () => {
     setSortName("пузырек");
   };
@@ -129,9 +140,9 @@ export const SortingPage: React.FC = () => {
     setDirection(Direction.Ascending);
     setDisabled(true);
     if (sortName === "выбор") {
-      selectionSort(arr, Direction.Ascending);
+      selectionSort(arr,setArr,setIsLoad,setDisabled, Direction.Ascending);
     } else {
-      bubbleSort(arr, Direction.Ascending);
+      bubbleSort(arr,setArr,setIsLoad,setDisabled, Direction.Ascending);
     }
   };
 
@@ -139,9 +150,9 @@ export const SortingPage: React.FC = () => {
     setDisabled(true);
     setDirection(Direction.Descending);
     if (sortName === "выбор") {
-      selectionSort(arr, Direction.Descending);
+      selectionSort(arr,setArr,setIsLoad,setDisabled, Direction.Descending);
     } else {
-      bubbleSort(arr, Direction.Descending);
+      bubbleSort(arr,setArr,setIsLoad,setDisabled, Direction.Descending);
     }
   };
 
