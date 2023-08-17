@@ -14,7 +14,7 @@ export const FibonacciPage: React.FC = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [num, setNum] = useState<number>(0);
   const [circleNumArray, setCircleNumArray] = useState<Array<number>>([]);
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 
   const numberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (
@@ -59,6 +59,7 @@ export const FibonacciPage: React.FC = () => {
           onClick={handleButton}
           isLoader={isLoad}
           disabled={buttonDisabled}
+          type="submit"
         />
       </div>
       <div className={styles.circles} style={justifyStyle}>

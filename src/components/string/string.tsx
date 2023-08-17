@@ -58,10 +58,12 @@ export const StringComponent: React.FC = () => {
       <div className={styles.wrapper}>
         <Input isLimitText={true} maxLength={11} onChange={wordChange} />
         <Button
+          disabled={!word.length}
           text="Развернуть"
           extraClass={styles.button}
           isLoader={isLoad}
           onClick={handleButton}
+          type="submit"
         />
       </div>
       <div className={styles.circles}>
@@ -72,7 +74,7 @@ export const StringComponent: React.FC = () => {
                 key={i}
                 letter={el.value}
                 state={el.state}
-                extraClass={styles.circe}
+                extraClass={styles.circle}
               />
             );
           })}
