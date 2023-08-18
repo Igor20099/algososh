@@ -34,7 +34,7 @@ export const QueuePage: React.FC = () => {
 
   const handleAdd = async () => {
     if (inputValue) {
-      setIsLoadAdd(true)
+      setIsLoadAdd(true);
       setInputValue("");
       queue.enqueue({ value: inputValue, state: ElementStates.Default });
       setQueue(queue);
@@ -54,12 +54,12 @@ export const QueuePage: React.FC = () => {
         state: ElementStates.Default,
       };
       setQueueArr([...queueArr]);
-      setIsLoadAdd(false)
+      setIsLoadAdd(false);
     }
   };
 
   const handleDelete = async () => {
-    setIsLoadDelete(true)
+    setIsLoadDelete(true);
     queue.dequeue();
     setQueue(queue);
     queueArr[queue.getHead() - 1] = {
@@ -77,11 +77,11 @@ export const QueuePage: React.FC = () => {
       };
       setQueueArr([...queueArr]);
     }
-    setIsLoadDelete(false)
+    setIsLoadDelete(false);
   };
 
   const handleClear = () => {
-    setIsLoadClear(true)
+    setIsLoadClear(true);
     queue.clear();
     setQueue(queue);
     setQueueArr(
@@ -90,13 +90,14 @@ export const QueuePage: React.FC = () => {
         state: ElementStates.Default,
       }))
     );
-    setIsLoadClear(false)
+    setIsLoadClear(false);
   };
 
   return (
     <SolutionLayout title="Очередь">
       <div className={styles.queue}>
         <Input
+          data-testid="input"
           maxLength={MAX_LENGTH}
           isLimitText={true}
           type="text"
@@ -105,6 +106,7 @@ export const QueuePage: React.FC = () => {
           onChange={changeValue}
         />
         <Button
+          data-testid="addButton"
           text="Добавить"
           extraClass={styles.add_button}
           onClick={handleAdd}
@@ -114,6 +116,7 @@ export const QueuePage: React.FC = () => {
           isLoader={isLoadAdd}
         />
         <Button
+          data-testid="removeButton"
           text="Удалить"
           extraClass={styles.remove_button}
           onClick={handleDelete}
@@ -121,11 +124,10 @@ export const QueuePage: React.FC = () => {
           isLoader={isLoadDelete}
         />
         <Button
+        data-testid='clearButton'
           text="Очистить"
           onClick={handleClear}
-          disabled={
-            queue.isEmpty()|| isLoadAdd || isLoadDelete ? true : false
-          }
+          disabled={queue.isEmpty() || isLoadAdd || isLoadDelete ? true : false}
           isLoader={isLoadClear}
         />
       </div>

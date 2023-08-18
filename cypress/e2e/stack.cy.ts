@@ -15,7 +15,7 @@ describe("Cтраница stack", function () {
   });
 
   it("Проверка заблокирована ли кнопка если input пуст", function () {
-    cy.get("input").should("be.empty");
+    cy.get(TEST_INPUT).should("be.empty");
     cy.get(TEST_ADD_BUTTON).should("be.disabled");
   });
 
