@@ -47,16 +47,17 @@ export const StackPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setIsLoadClear(true)
+    setIsLoadClear(true);
     stack.clear();
     setStackArr([...stack.getElements()]);
-    setIsLoadClear(false)
+    setIsLoadClear(false);
   };
 
   return (
     <SolutionLayout title="Стек">
       <div className={styles.stack}>
         <Input
+          data-testid="input"
           maxLength={MAX_LENGTH}
           isLimitText={true}
           type="text"
@@ -65,6 +66,7 @@ export const StackPage: React.FC = () => {
           value={inputValue}
         />
         <Button
+          data-testid="addButton"
           text="Добавить"
           extraClass={styles.add_button}
           onClick={handleAdd}
@@ -74,6 +76,7 @@ export const StackPage: React.FC = () => {
           isLoader={isLoadAdd}
         />
         <Button
+          data-testid="removeButton"
           text="Удалить"
           extraClass={styles.remove_button}
           onClick={handleDelete}
@@ -81,6 +84,7 @@ export const StackPage: React.FC = () => {
           isLoader={isLoadDelete}
         />
         <Button
+          data-testid="clearButton"
           text="Очистить"
           onClick={handleClear}
           disabled={
