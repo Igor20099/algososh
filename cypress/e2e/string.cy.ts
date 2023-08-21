@@ -1,5 +1,11 @@
 import { DELAY_IN_MS } from "../../src/constants/delays";
-import { TEST_URL,TEST_CIRCLE } from "../../src/constants/test-constants";
+import {
+  TEST_URL,
+  TEST_CIRCLE,
+  CHANGING_COLOR,
+  DEFAULT_COLOR,
+  MODIFIED_COLOR,
+} from "../../src/constants/test-constants";
 
 describe("Страница string", function () {
   beforeEach(function () {
@@ -16,29 +22,29 @@ describe("Страница string", function () {
 
     const originalString = "hello";
     const firstStepColorsArr = [
-      "rgb(210, 82, 225)",
-      "rgb(0, 50, 255)",
-      "rgb(0, 50, 255)",
-      "rgb(0, 50, 255)",
-      "rgb(210, 82, 225)",
+      CHANGING_COLOR,
+      DEFAULT_COLOR,
+      DEFAULT_COLOR,
+      DEFAULT_COLOR,
+      CHANGING_COLOR,
     ];
 
     const inProcessString = "oellh";
     const secondStepColorsArr = [
-      "rgb(127, 224, 81)",
-      "rgb(210, 82, 225)",
-      "rgb(0, 50, 255)",
-      "rgb(210, 82, 225)",
-      "rgb(127, 224, 81)",
+      MODIFIED_COLOR,
+      CHANGING_COLOR,
+      DEFAULT_COLOR,
+      CHANGING_COLOR,
+      MODIFIED_COLOR,
     ];
 
     const finalString = "olleh";
     const finaStepColorsArr = [
-      "rgb(127, 224, 81)",
-      "rgb(127, 224, 81)",
-      "rgb(127, 224, 81)",
-      "rgb(127, 224, 81)",
-      "rgb(127, 224, 81)",
+      MODIFIED_COLOR,
+      MODIFIED_COLOR,
+      MODIFIED_COLOR,
+      MODIFIED_COLOR,
+      MODIFIED_COLOR,
     ];
 
     cy.get("input").type(originalString);

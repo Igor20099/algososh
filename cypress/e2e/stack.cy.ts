@@ -7,6 +7,9 @@ import {
   TEST_REMOVE_BUTTON,
   TEST_CLEAR_BUTTON,
   TEST_INPUT,
+  MODIFIED_COLOR,
+  DEFAULT_COLOR,
+  CHANGING_COLOR,
 } from "../../src/constants/test-constants";
 
 describe("Cтраница stack", function () {
@@ -18,9 +21,6 @@ describe("Cтраница stack", function () {
     cy.get(TEST_INPUT).should("be.empty");
     cy.get(TEST_ADD_BUTTON).should("be.disabled");
   });
-
-  const modifiedColor = "4px solid rgb(210, 82, 225)";
-  const defaultColor = "4px solid rgb(0, 50, 255)";
 
   const firstElement = "5";
   const secondElement = "7";
@@ -35,8 +35,8 @@ describe("Cтраница stack", function () {
     cy.get(TEST_CIRCLE_CONTAINER).first().as("firstCircleContent");
     cy.get(TEST_CIRCLE).first().as("firstCircle");
 
-    cy.get("@firstCircle").should("have.css", "border", modifiedColor);
-    cy.get("@firstCircle").should("have.css", "border", defaultColor);
+    cy.get("@firstCircle").should("have.css", "border-color", CHANGING_COLOR);
+    cy.get("@firstCircle").should("have.css", "border-color", DEFAULT_COLOR);
     cy.get("@firstCircleContent").children().contains("top");
 
     cy.get("@input").type(secondElement);
@@ -45,8 +45,8 @@ describe("Cтраница stack", function () {
     cy.get(TEST_CIRCLE_CONTAINER).eq(1).as("secondCircleContent");
     cy.get(TEST_CIRCLE).eq(1).as("secondCircle");
 
-    cy.get("@secondCircle").should("have.css", "border", modifiedColor);
-    cy.get("@secondCircle").should("have.css", "border", defaultColor);
+    cy.get("@secondCircle").should("have.css", "border-color", CHANGING_COLOR);
+    cy.get("@secondCircle").should("have.css", "border-color", DEFAULT_COLOR);
     cy.get("@secondCircleContent").children().contains("top");
   });
 
@@ -61,8 +61,8 @@ describe("Cтраница stack", function () {
     cy.get(TEST_CIRCLE_CONTAINER).first().as("firstCircleContent");
     cy.get(TEST_CIRCLE).first().as("firstCircle");
 
-    cy.get("@firstCircle").should("have.css", "border", modifiedColor);
-    cy.get("@firstCircle").should("have.css", "border", defaultColor);
+    cy.get("@firstCircle").should("have.css", "border-color", CHANGING_COLOR);
+    cy.get("@firstCircle").should("have.css", "border-color", DEFAULT_COLOR);
     cy.get("@firstCircleContent").children().contains("top");
 
     cy.get("@input").type(secondElement);
@@ -71,13 +71,13 @@ describe("Cтраница stack", function () {
     cy.get(TEST_CIRCLE_CONTAINER).eq(1).as("secondCircleContent");
     cy.get(TEST_CIRCLE).eq(1).as("secondCircle");
 
-    cy.get("@secondCircle").should("have.css", "border", modifiedColor);
-    cy.get("@secondCircle").should("have.css", "border", defaultColor);
+    cy.get("@secondCircle").should("have.css", "border-color", CHANGING_COLOR);
+    cy.get("@secondCircle").should("have.css", "border-color", DEFAULT_COLOR);
     cy.get("@secondCircleContent").children().contains("top");
 
     cy.get("@deleteButton").click();
 
-    cy.get("@secondCircle").should("have.css", "border", modifiedColor);
+    cy.get("@secondCircle").should("have.css", "border-color", CHANGING_COLOR);
     cy.get("@secondCircle").should("not.exist");
     cy.get("@firstCircleContent").children().contains("top");
     cy.get("@firstCircle").should("have.text", firstElement);

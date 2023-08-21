@@ -227,6 +227,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <div className={styles.container}>
         <Input
+          data-testid="input"
           maxLength={MAX_LENGTH}
           placeholder="Введите значение"
           extraClass={styles.input}
@@ -235,6 +236,7 @@ export const ListPage: React.FC = () => {
           onChange={changeInputValue}
         />
         <Button
+          data-testid="addHeadButton"
           text="Добавить в head"
           extraClass={styles.button}
           onClick={handleAddHead}
@@ -242,6 +244,7 @@ export const ListPage: React.FC = () => {
           isLoader={isloadAddHead}
         />
         <Button
+          data-testid="addTailButton"
           text="Добавить в tail"
           extraClass={styles.button}
           onClick={handleAddTail}
@@ -249,6 +252,7 @@ export const ListPage: React.FC = () => {
           isLoader={isloadAddTail}
         />
         <Button
+          data-testid="removeHeadButton"
           text="Удалить из head"
           extraClass={styles.button}
           onClick={handleDeleteHead}
@@ -264,6 +268,7 @@ export const ListPage: React.FC = () => {
           }
         />
         <Button
+          data-testid="removeTailButton"
           text="Удалить из tail"
           extraClass={styles.button_tail}
           onClick={handleDeleteTail}
@@ -279,30 +284,39 @@ export const ListPage: React.FC = () => {
           }
         />
         <Input
+          data-testid="inputIndex"
           placeholder="Введите индекс"
           extraClass={styles.input}
           value={inputIndex !== -1 ? inputIndex : ""}
           onChange={changeInputIndex}
         />
         <Button
+          data-testid="addIndexButton"
           text="Добавить по индексу"
           extraClass={styles.button_index}
           onClick={handleInsertAt}
           disabled={
-            (!inputIndex || !inputValue) ||
+            !inputIndex ||
+            !inputValue ||
             isLoadDeleteIndex ||
-             inputIndex! > linkedListArr.length - 1
+            inputIndex! > linkedListArr.length - 1
               ? true
               : false
           }
           isLoader={isloadAddIndex}
         />
         <Button
+          data-testid="removeIndexButton"
           text="Удалить по индексу"
           extraClass={styles.button_index}
           onClick={handleDeleteAt}
           disabled={
-            !inputIndex || isloadAddIndex || inputIndex === -1 || inputIndex! > linkedListArr.length - 1 ? true : false
+            !inputIndex ||
+            isloadAddIndex ||
+            inputIndex === -1 ||
+            inputIndex! > linkedListArr.length - 1
+              ? true
+              : false
           }
           isLoader={isLoadDeleteIndex}
         />
@@ -322,6 +336,7 @@ export const ListPage: React.FC = () => {
                       showHead(i, linkedListArr.length - 1, inputIndex)
                     ) : (
                       <Circle
+                        data-testid="headCircle"
                         key={i}
                         letter={el.head}
                         isSmall={true}
@@ -334,6 +349,7 @@ export const ListPage: React.FC = () => {
                       showTail(i, linkedListArr.length - 1)
                     ) : (
                       <Circle
+                        data-testid="tailCircle"
                         key={i}
                         letter={el.tail}
                         isSmall={true}
