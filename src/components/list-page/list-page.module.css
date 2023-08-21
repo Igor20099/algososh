@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 970px;
+    margin: 0 auto;
+    margin-bottom: 90px;
+}
+
+.input {
+    max-width: 204px;
+    margin-bottom: 38px;
+    margin-right: 12px;
+}
+
+.button {
+    margin-right: 12px;
+    width: 175px;
+}
+
+.button_tail {
+    margin-right: 0;
+    width: 175px;
+}
+
+.button_index {
+    margin-right: 12px;
+    width: 362px;
+}
+
+.circles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle:first-child {
+    margin-right: 16px;
+}
+
+.circle_wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    margin-left: 16px;
+    margin-right: 16px;
+   
+}
+
+.circle:last-child {
+    margin-left: 16px;
+}
+
